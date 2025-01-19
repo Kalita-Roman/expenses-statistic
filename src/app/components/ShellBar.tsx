@@ -27,9 +27,7 @@ export const ShellBar = async () => {
             }}
             className="flex ml-2"
           >
-            <Button>
-              Sign Out
-            </Button>
+            <Button>Sign Out</Button>
           </form>
         </>
       )}
