@@ -8,9 +8,9 @@ webpush.setVapidDetails(
   process.env.VAPID_PRIVATE_KEY!
 )
  
-let subscription: PushSubscription | null = null
+let subscription: webpush.PushSubscription | null = null
  
-export async function subscribeUser(sub: PushSubscription) {
+export async function subscribeUser(sub: webpush.PushSubscription) {
   subscription = sub
   // In a production environment, you would want to store the subscription in a database
   // For example: await db.subscriptions.create({ data: sub })
@@ -24,20 +24,20 @@ export async function unsubscribeUser() {
   return { success: true }
 }
  
-export async function sendNotification(message: string) {
+export async function sendNotification(/*message: string*/) {
   if (!subscription) {
     throw new Error('No subscription available')
   }
  
   try {
-    await webpush.sendNotification(
-      subscription,
-      JSON.stringify({
-        title: 'Test Notification',
-        body: message,
-        icon: '/icon.png',
-      })
-    )
+    // await webpush.sendNotification(
+    //   subscription,
+    //   JSON.stringify({
+    //     title: 'Test Notification',
+    //     body: message,
+    //     icon: '/icon.png',
+    //   })
+    // )
     return { success: true }
   } catch (error) {
     console.error('Error sending push notification:', error)
