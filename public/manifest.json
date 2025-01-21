@@ -1,7 +1,7 @@
 {
-  "name": "Next.js PWA",
-  "short_name": "NextPWA",
-  "description": "A Progressive Web App built with Next.js",
+  "name": "Expenses",
+  "short_name": "Expenses",
+  "description": "Calculate expenses",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
