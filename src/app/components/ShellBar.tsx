@@ -1,9 +1,6 @@
 import { ReactNode } from "react";
-import { auth, signIn, signOut } from "../../../auth.config";
 
-export const ShellBar = async () => {
-
-  const session = await auth();
+export const ShellBar = ({ session, signIn, signOut }: { session: unknown, signIn: () => Promise<void>, signOut: () => Promise<void> }) => {
 
   return (
     <div className="shell-bar bg-gray-800 text-white p-4 flex justify-end items-center ml-auto">
@@ -34,7 +31,5 @@ export const ShellBar = async () => {
     </div>
   );
 };
-
-
 
 const Button = ({ children }: { children: ReactNode }) => <button className="bg-transparent hover:bg-gray-900 text-white-700 font-semibold hover:text-white py-1 px-4 border border-white-500 hover:border-transparent rounded-full">{children}</button>;

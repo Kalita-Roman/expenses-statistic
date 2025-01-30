@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ShellBar } from "@/app/components/ShellBar"
+import { ShellBar } from "@/app/components/ShellBar";
 import "./globals.css";
+import { auth, signIn, signOut } from "../../auth.config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,17 +19,19 @@ export const metadata: Metadata = {
   description: "Expenses",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ShellBar />
+        <ShellBar session={session} signIn={signIn} signOut={signOut} />
         {children}
       </body>
     </html>
