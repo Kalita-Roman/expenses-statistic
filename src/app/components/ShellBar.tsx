@@ -1,20 +1,11 @@
 import { ReactNode } from "react";
+import { auth, signIn, signOut } from "../../../auth.config";
 
-type Session = {
-  user?: {
-    image: string;
-  };
-};
+export const ShellBar = async () => {
+  const session = await auth();
 
-export const ShellBar = ({
-  session,
-  signIn,
-  signOut,
-}: {
-  session: Session;
-  signIn: () => Promise<void>;
-  signOut: () => Promise<void>;
-}) => {
+  console.log("\n\n\n>>> ShellBar\n\n\n");
+
   return (
     <div className="shell-bar bg-gray-800 text-white p-4 flex justify-end items-center ml-auto">
       {!session?.user && (
@@ -51,3 +42,5 @@ const Button = ({ children }: { children: ReactNode }) => (
     {children}
   </button>
 );
+
+export default ShellBar;
