@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ShellBar } from "@/app/components/ShellBar";
-import ClComp from "@/app/components/ClComp";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,15 +23,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log("\n\n\n>>> RootLayout\n\n\n");
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ShellBar />
-        <ClComp />
         {children}
       </body>
     </html>

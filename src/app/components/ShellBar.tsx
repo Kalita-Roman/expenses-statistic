@@ -1,10 +1,9 @@
 import { ReactNode } from "react";
 import { auth, signIn, signOut } from "../../../auth.config";
+import "../../data-source";
 
 export const ShellBar = async () => {
   const session = await auth();
-
-  console.log("\n\n\n>>> ShellBar\n\n\n");
 
   return (
     <div className="shell-bar bg-gray-800 text-white p-4 flex justify-end items-center ml-auto">
