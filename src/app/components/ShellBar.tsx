@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { auth, signIn, signOut } from "../../../auth.config";
-import "../../data-source";
 
 export const ShellBar = async () => {
   const session = await auth();
