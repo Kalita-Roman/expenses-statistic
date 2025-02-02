@@ -6,15 +6,18 @@
     "dev": "next dev --experimental-https",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/pg-adapter": "^1.7.4",
-    "@neondatabase/serverless": "^0.10.4",
+    "@prisma/adapter-pg": "^6.3.0",
+    "@prisma/client": "^6.3.0",
     "@vercel/postgres": "^0.10.0",
     "next": "^15.1.6",
     "next-auth": "^5.0.0-beta.25",
     "pg": "^8.13.1",
+    "prisma": "^6.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "web-push": "^3.6.7"

@@ -1,4 +1,6 @@
 import { Pool } from "pg"
+import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaClient } from '@prisma/client'
 
 export const pool = new Pool({
   host: process.env.POSTGRES_HOST,
@@ -9,4 +11,6 @@ export const pool = new Pool({
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
   ssl: true
-})
+});
+const adapter = new PrismaPg(pool);
+export const prisma = new PrismaClient({ adapter });

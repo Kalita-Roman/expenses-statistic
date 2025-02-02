@@ -1,8 +1,11 @@
 import { ReactNode } from "react";
 import { auth, signIn, signOut } from "../../../auth.config";
+// import { prisma } from "../../db";
 
 export const ShellBar = async () => {
   const session = await auth();
+
+  // const users = await prisma.users.findMany();
 
   return (
     <div className="shell-bar bg-gray-800 text-white p-4 flex justify-end items-center ml-auto">
