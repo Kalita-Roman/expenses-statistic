@@ -1,35 +1,12 @@
-'use client'
- 
-import { useEffect } from 'react'
- 
-function PushNotificationManager() {
- 
-  useEffect(() => {
-    if ('serviceWorker' in navigator && 'PushManager' in window) {
-      registerServiceWorker()
-    }
-  }, [])
- 
-  function registerServiceWorker() {
-    navigator.serviceWorker.register('/sw.js', {
-      scope: '/',
-      updateViaCache: 'none',
-    })
-      .then(() => {console.log('Client. Registered')})
-      .catch(() => {console.error('Client. Registration Failed')})
-  }
+import { prisma } from "@/db";
+
+export default async function Page() {
+  const users = await prisma.users.findMany();
 
   return (
     <div>
       <h1>App</h1>
-    </div>
-  )
-}
-
-export default function Page() {
-  return (
-    <div>
-      <PushNotificationManager />
+      <div>{JSON.stringify(users)}</div>
     </div>
   )
 }
