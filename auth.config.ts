@@ -1,10 +1,15 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
 import PostgresAdapter from "@auth/pg-adapter"
-import { pool } from "./src/db";
+import { createAuthPool } from "./src/db";
+import type { Pool } from "pg"
 
+export const { handlers, auth, signIn, signOut } = NextAuth(async () => {
+  const pool = await createAuthPool();
+  return createAuthConfig({ pool });
+});
 
-export const authConfig = {
+const createAuthConfig = ({ pool }: { pool: Pool }) => ({
   adapter: PostgresAdapter(pool),
   providers: [
     GoogleProvider({
@@ -12,6 +17,4 @@ export const authConfig = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     })
   ],
-};
-
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+})
