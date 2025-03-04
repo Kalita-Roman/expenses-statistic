@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { auth } from "../../../auth.config";
+import { auth } from "@/auth.config";
 
 export const SessionWrapper = async ({
   children,

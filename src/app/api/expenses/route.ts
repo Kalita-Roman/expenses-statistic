@@ -4,3 +4,8 @@ export async function GET() {
   console.log('>>> GET')
   return NextResponse.json({ ok: 'ok' }, { status: 200 });
 }
+
+export async function POST() {
+  console.log('>>> POST')
+  return NextResponse.json({ ok: 'ok' }, { status: 200 });
+}

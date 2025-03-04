@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { auth, signIn, signOut } from "../../../auth.config";
+import { auth, signIn, signOut } from "@/auth.config";
 // import { prisma } from "../../db";
 
 export const ShellBar = async () => {
