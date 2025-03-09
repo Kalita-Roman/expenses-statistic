@@ -9,8 +9,9 @@ datasource db {
 }
 
 model users {
-  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  auth_id Int
+  id       String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auth_id  Int
+  expenses expenses[]
 }
 
 model tags {
@@ -34,5 +35,8 @@ model expenses {
   currency                             String    @db.Char(3)
   note                                 String?
   category                             String?   @db.Uuid
+  created_at                           DateTime? @default(now()) @db.Timestamptz(6)
+  user_id                              String    @db.Uuid
   category_expenses_categoryTocategory category? @relation("expenses_categoryTocategory", fields: [category], references: [id], onUpdate: NoAction, map: "fk_category")
+  users                                users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
 }
