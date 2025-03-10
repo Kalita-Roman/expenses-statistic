@@ -30,8 +30,9 @@ CREATE TABLE "expenses" (
     "date" DATE NOT NULL,
     "amount" DECIMAL(15,2) NOT NULL,
     "currency" CHAR(3) NOT NULL,
-    "note" TEXT,
     "category" UUID,
+    "created_at" TIMESTAMPTZ(6) DEFAULT CURRENT_TIMESTAMP,
+    "user_id" UUID NOT NULL,
 
     CONSTRAINT "expenses_pkey" PRIMARY KEY ("id")
 );
@@ -39,3 +40,5 @@ CREATE TABLE "expenses" (
 -- AddForeignKey
 ALTER TABLE "expenses" ADD CONSTRAINT "fk_category" FOREIGN KEY ("category") REFERENCES "category"("id") ON DELETE SET NULL ON UPDATE NO ACTION;
 
+-- AddForeignKey
+ALTER TABLE "expenses" ADD CONSTRAINT "fk_user" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

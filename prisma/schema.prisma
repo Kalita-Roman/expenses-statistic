@@ -30,6 +30,7 @@ model category {
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model expenses {
   id                                   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  users                                users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
   date                                 DateTime  @db.Date
   amount                               Decimal   @db.Decimal(15, 2)
   currency                             String    @db.Char(3)
@@ -38,5 +39,4 @@ model expenses {
   created_at                           DateTime? @default(now()) @db.Timestamptz(6)
   user_id                              String    @db.Uuid
   category_expenses_categoryTocategory category? @relation("expenses_categoryTocategory", fields: [category], references: [id], onUpdate: NoAction, map: "fk_category")
-  users                                users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
 }
