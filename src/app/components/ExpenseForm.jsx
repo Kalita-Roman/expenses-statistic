@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import DecimalInput from "@/app/components/client/DecimalInput";
 import { createExpense } from "@/app/expenses/actions";
 
-export default function Expense() {
+export const ExpenseForm = () => {
   const [state, createExpenseFormAction, isPending] = useActionState(
     createExpense,
     ""
@@ -26,4 +26,4 @@ export default function Expense() {
       </button>
     </Form>
   );
-}
+};
