@@ -1,15 +1,14 @@
 import { getExpenses } from "@/services/expensesService";
-import { Price } from "@/app/components/presentential/Price";
+import { ExpenseRecord } from "@/app/components";
 
 export const ExpensesList = async () => {
   const expenses = await getExpenses();
 
   return (
-    <div>
+    <div className="w-1/3">
       {expenses.map((expense) => (
         <div key={expense.id}>
-          {JSON.stringify(expense)}
-          <Price amount={expense.amount} currency={expense.currency} />
+          <ExpenseRecord expense={expense} />
         </div>
       ))}
     </div>

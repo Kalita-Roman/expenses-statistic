@@ -1,15 +1,6 @@
 "use server";
-import { getAuthUserId } from "@/services/authService";
 import * as expensesService from "@/services/expensesService";
-
-type Expense = {
-  id: string;
-  date: string;
-  amount: number;
-  currency: string;
-  note: string | null;
-  category: string | null;
-};
+import { Expense } from "@/types";
 
 export async function createExpense(prevState: unknown, formData: FormData) {
   try {
@@ -18,9 +9,6 @@ export async function createExpense(prevState: unknown, formData: FormData) {
     if (amount === null) {
       throw new Error("Amount is required");
     }
-
-    const userId = await getAuthUserId();
-    console.log("userId", userId);
 
     const expense = await expensesService.createExpense({
       amount: amount as unknown as number,

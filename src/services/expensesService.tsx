@@ -1,17 +1,19 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "@/services/prismaService";
 import { getUserId } from "@/services/authService";
+import { Expense } from "@/types";
 
-type ExpenseWithAmount<T> = T & { amount: number };
+type re = ReturnType<typeof prisma.expenses.findMany>;
+type re2 = re extends Promise<infer T> ? T : never;
+type ExpenseDB = re2 extends Array<infer T> ? T : never;
 
-const convertExpense = <T extends { amount: Prisma.Decimal }>(
-  expense: T
-): ExpenseWithAmount<T> => ({
-  ...expense,
+const convertExpense = (expense: ExpenseDB): Expense => ({
+  id: expense.id,
+  date: expense.date,
+  currency: expense.currency,
   amount: expense.amount.toNumber(),
 });
 
-export const getExpenses = async () => {
+export const getExpenses = async (): Promise<Expense[]> => {
   const user = await getUserId();
 
   const expenses = await prisma.expenses.findMany({ where: { user_id: user } });

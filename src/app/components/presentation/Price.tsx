@@ -6,9 +6,9 @@ export const Price = ({
   currency: string;
 }) => {
   return (
-    <div>
+    <div className="flex items-end gap-1 justify-end">
       <span>{amount}</span>
-      <span>{currency}</span>
+      <span className="text-xs">{currency}</span>
     </div>
   );
 };
