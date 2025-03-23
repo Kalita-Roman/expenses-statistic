@@ -1,5 +1,5 @@
 import { Expense } from "@/types";
-import { Price } from "@/app/components/presentation/Price";
+import { Price } from "@/components/presentation/Price";
 
 export const ExpenseRecord = ({ expense }: { expense: Expense }) => {
   return (
