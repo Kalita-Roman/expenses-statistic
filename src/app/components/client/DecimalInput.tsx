@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Input } from "@/components/presentation";
 
 export default function DecimalInput({
   className,
@@ -17,11 +16,12 @@ export default function DecimalInput({
       .replace(/^0+(\d)/, "$1") // Remove leading zeros
       .replace(/^\./, "0.") // Add leading zero for .xx
       .replace(/(\.\d{2}).*/, "$1"); // Limit to 2 decimal places
+    console.log(">>> setValue", newValue);
     setValue(newValue);
   };
 
   return (
-    <Input
+    <input
       className={className}
       type="text"
       name="amount"

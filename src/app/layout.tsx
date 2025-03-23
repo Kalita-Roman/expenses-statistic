@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ShellBar, SessionWrapper } from "@/components/server";
-import { LoadServiceWorker } from "@/components/client";
+import { ShellBar, SessionWrapper } from "@/app/components";
+import { LoadServiceWorker } from "@/app/components/client";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,7 +30,9 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ShellBar />
-        <SessionWrapper>{children}</SessionWrapper>
+        <SessionWrapper>
+          {children}
+        </SessionWrapper>
         <LoadServiceWorker />
       </body>
     </html>

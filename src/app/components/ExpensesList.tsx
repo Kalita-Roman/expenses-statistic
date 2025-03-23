@@ -1,5 +1,5 @@
 import { getExpenses } from "@/services/expensesService";
-import { ExpenseRecord } from "@/components/server";
+import { ExpenseRecord } from "@/app/components";
 
 export const ExpensesList = async () => {
   const expenses = await getExpenses();
