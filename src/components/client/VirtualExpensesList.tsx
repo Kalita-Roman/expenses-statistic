@@ -4,7 +4,8 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { ExpenseRecord } from "@/components/client";
 
 interface VirtualExpensesListProps {
-  expenses: unknown[]; // adjust type as needed
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  expenses: any[]; // adjust type as needed
 }
 
 export const VirtualExpensesList: React.FC<VirtualExpensesListProps> = ({
