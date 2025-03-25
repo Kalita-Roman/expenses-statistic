@@ -4,7 +4,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { ExpenseRecord } from "@/components/client";
 
 interface VirtualExpensesListProps {
-  expenses: any[]; // adjust type as needed
+  expenses: unknown[]; // adjust type as needed
 }
 
 export const VirtualExpensesList: React.FC<VirtualExpensesListProps> = ({
