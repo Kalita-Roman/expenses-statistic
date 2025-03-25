@@ -8,8 +8,14 @@ export default function BlogLayout({
 }) {
   return (
     <>
-      <ButtonLikeLink href="/expenses/add">Add</ButtonLikeLink>
-      <ExpensesList />
+      <div className="flex flex-col h-full">
+        <div className="flex-grow">
+          <ExpensesList />
+        </div>
+        <div>
+          <ButtonLikeLink href="/expenses/add">Add</ButtonLikeLink>
+        </div>
+      </div>
       <div>{children}</div>
     </>
   );

@@ -27,12 +27,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen`}
       >
         <ShellBar />
-        <SessionWrapper>{children}</SessionWrapper>
-        <LoadServiceWorker />
+        <div className="flex-grow h-full">
+          <SessionWrapper>{children}</SessionWrapper>
+        </div>
       </body>
+      <LoadServiceWorker />
     </html>
   );
 }

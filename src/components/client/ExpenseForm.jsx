@@ -17,11 +17,13 @@ export const ExpenseForm = ({ onDone = () => {} } = {}) => {
   }, [isPending, state]);
 
   return (
-    <Form action={createExpenseFormAction}>
-      <div>{JSON.stringify(state)}</div>
-      <div>{`isPending: ${isPending}`}</div>
-      <DecimalInput name="amount" />
-      <Button type="submit">Submit</Button>
+    <Form action={createExpenseFormAction} className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-4">
+        <DecimalInput name="amount" disabled={isPending} />
+        <Button type="submit" disabled={isPending}>
+          Submit
+        </Button>
+      </div>
     </Form>
   );
 };

@@ -8,7 +8,7 @@ export const ShellBar = async () => {
   // const users = await prisma.users.findMany();
 
   return (
-    <div className="shell-bar bg-gray-800 text-white p-4 flex justify-end items-center ml-auto">
+    <div className="shell-bar w-full bg-gray-800 text-white p-4 flex justify-end items-center ml-auto ">
       {!session?.user && (
         <form
           action={async () => {
