@@ -27,7 +27,6 @@ export const getExpenses = async ({
     orderBy: { date: "desc" },
   });
 
-  // total items for a user
   const total = await prisma.expenses.count({
     where: { user_id: user },
   });

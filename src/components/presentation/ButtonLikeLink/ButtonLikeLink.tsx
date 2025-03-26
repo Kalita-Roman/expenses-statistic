@@ -7,7 +7,7 @@ export const ButtonLikeLink = ({ children, className, ...props }: LinkType) => {
   return (
     <Link
       className={twMerge(
-        "inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded",
+        "inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-center",
         className
       )}
       {...props}

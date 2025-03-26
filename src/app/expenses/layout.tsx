@@ -12,8 +12,10 @@ export default function BlogLayout({
         <div className="flex-grow">
           <ExpensesList />
         </div>
-        <div>
-          <ButtonLikeLink href="/expenses/add">Add</ButtonLikeLink>
+        <div className="p-2 w-full">
+          <ButtonLikeLink className="w-full" href="/expenses/add">
+            Add
+          </ButtonLikeLink>
         </div>
       </div>
       <div>{children}</div>

@@ -12,6 +12,7 @@ export default function DecimalInput({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
+      .replace(/,/g, ".") // Replace commas to dots
       .replace(/[^0-9.]/g, "") // Remove non-digits/dots
       .replace(/(\..*)\./g, "$1") // Prevent multiple dots
       .replace(/^0+(\d)/, "$1") // Remove leading zeros
