@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
   QueryClient,
@@ -7,7 +7,6 @@ import {
   useInfiniteQuery,
 } from "@tanstack/react-query";
 import { ExpenseRecord } from "@/components/client";
-import { Expense } from "@/types";
 
 const fetchExpenses = async ({
   pageParam = 0,
