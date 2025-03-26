@@ -1,17 +1,20 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { ExpenseRecord } from "@/components/client";
+import { Expense } from "@/types";
 
-interface VirtualExpensesListProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  expenses: any[]; // adjust type as needed
-}
-
-export const VirtualExpensesList: React.FC<VirtualExpensesListProps> = ({
-  expenses,
-}) => {
+export const VirtualExpensesList: React.FC = () => {
   const parentRef = useRef<HTMLDivElement>(null);
+
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("/api/expenses").then((res) => res.json());
+      setExpenses(response.data);
+    })();
+  }, []);
+
   const rowVirtualizer = useVirtualizer({
     count: expenses.length,
     getScrollElement: () => parentRef.current,

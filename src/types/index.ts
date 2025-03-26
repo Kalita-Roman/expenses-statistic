@@ -1,1 +1,1 @@
-export type { Expense } from "./Expense.types";
+export type * from "./Expense.types";

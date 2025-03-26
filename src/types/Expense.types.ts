@@ -6,3 +6,9 @@ export type Expense = {
   note?: string;
   category?: string;
 };
+
+export type ExpenseServiceResponse = {
+  data: Expense[];
+  meta: object;
+  error?: object;
+};

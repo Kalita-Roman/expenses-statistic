@@ -1,4 +1,4 @@
-import { ExpensesList } from "@/components/server";
+import { ExpensesList } from "@/components/client";
 import { ButtonLikeLink } from "@/components/presentation";
 
 export default function BlogLayout({
