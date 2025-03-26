@@ -13,17 +13,31 @@ const convertExpense = (expense: ExpenseDB): Expense => ({
   amount: expense.amount.toNumber(),
 });
 
+const PAGE_SIZE = 20;
+
 export const getExpenses = async ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   page = 0,
 }: { page?: number } = {}): Promise<ExpenseServiceResponse> => {
   const user = await getUserId();
 
-  const expenses = await prisma.expenses.findMany({ where: { user_id: user } });
+  const expenses = await prisma.expenses.findMany({
+    where: { user_id: user },
+    skip: page * PAGE_SIZE,
+    take: PAGE_SIZE,
+    orderBy: { date: "desc" },
+  });
+
+  // total items for a user
+  const total = await prisma.expenses.count({
+    where: { user_id: user },
+  });
 
   return {
     data: expenses.map(convertExpense),
-    meta: {},
+    meta: {
+      page,
+      isLast: (page + 1) * PAGE_SIZE >= total,
+    },
   };
 };
 

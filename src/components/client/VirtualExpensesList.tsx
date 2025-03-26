@@ -1,19 +1,42 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import { ExpenseRecord } from "@/components/client";
 import { Expense } from "@/types";
 
-export const VirtualExpensesList: React.FC = () => {
+const fetchExpenses = async ({
+  pageParam = 0,
+}: { pageParam?: number } | undefined = {}) => {
+  const response = await fetch(`/api/expenses?page=${pageParam}`).then((res) =>
+    res.json()
+  );
+  return response;
+};
+
+const queryClient = new QueryClient();
+
+export const VirtualExpensesListA: React.FC = () => {
   const parentRef = useRef<HTMLDivElement>(null);
 
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  useEffect(() => {
-    (async () => {
-      const response = await fetch("/api/expenses").then((res) => res.json());
-      setExpenses(response.data);
-    })();
-  }, []);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["expenses"],
+      queryFn: ({ pageParam = 0 }) => fetchExpenses({ pageParam }),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage) => {
+        const { isLast, page } = lastPage.meta;
+        return isLast ? undefined : page + 1;
+      },
+    });
+
+  const expenses = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) || [];
+  }, [data]);
 
   const rowVirtualizer = useVirtualizer({
     count: expenses.length,
@@ -21,6 +44,20 @@ export const VirtualExpensesList: React.FC = () => {
     estimateSize: () => 40,
     overscan: 5,
   });
+
+  const virtualItems = rowVirtualizer.getVirtualItems();
+
+  useEffect(() => {
+    const lastIndex = virtualItems.at(-1)?.index;
+    if (
+      lastIndex &&
+      lastIndex + 1 === expenses.length &&
+      hasNextPage &&
+      !isFetchingNextPage
+    ) {
+      fetchNextPage();
+    }
+  }, [virtualItems, expenses, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
     <div className="relative h-full w-full">
@@ -33,7 +70,7 @@ export const VirtualExpensesList: React.FC = () => {
               width: "100%",
             }}
           >
-            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            {virtualItems.map((virtualRow) => {
               console.log(virtualRow);
               const expense = expenses[virtualRow.index];
               return (
@@ -60,3 +97,9 @@ export const VirtualExpensesList: React.FC = () => {
     </div>
   );
 };
+
+export const VirtualExpensesList = () => (
+  <QueryClientProvider client={queryClient}>
+    <VirtualExpensesListA />
+  </QueryClientProvider>
+);
