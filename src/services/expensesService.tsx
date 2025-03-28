@@ -1,3 +1,4 @@
+// import { validate as validateUUID } from "uuid";
 import { prisma } from "@/services/prismaService";
 import { getUserId } from "@/services/authService";
 import { Expense, ExpenseServiceResponse } from "@/types";
@@ -38,6 +39,30 @@ export const getExpenses = async ({
       isLast: (page + 1) * PAGE_SIZE >= total,
     },
   };
+};
+
+export const getExpense = async ({
+  id,
+}: {
+  id: string;
+}): Promise<Expense | null> => {
+  const user = await getUserId();
+
+  let expense: ExpenseDB | null = null;
+  try {
+    expense = await prisma.expenses.findFirst({
+      where: { id, user_id: user },
+    });
+  } catch (e) {
+    console.error("Error fetching expense:", e);
+    return null;
+  }
+
+  if (!expense) {
+    return null;
+  }
+
+  return convertExpense(expense);
 };
 
 export const createExpense = async ({ amount }: { amount: number }) => {

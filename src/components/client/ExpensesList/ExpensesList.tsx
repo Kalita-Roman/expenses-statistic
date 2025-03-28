@@ -13,7 +13,11 @@ const fetchExpenses = async ({
   return response;
 };
 
-export const VirtualExpensesListA: React.FC = () => {
+export const VirtualExpensesListA = ({
+  onView,
+}: {
+  onView: (expenseId: string) => void;
+}) => {
   const { expenses, tryToFetchNextPage, isFetchingNextPage } =
     useInfinityLoading({ fetchExpenses });
 
@@ -21,15 +25,20 @@ export const VirtualExpensesListA: React.FC = () => {
     <VirtualList
       expenses={expenses}
       onLoadMore={tryToFetchNextPage}
+      onView={onView}
       isFetchingMore={isFetchingNextPage}
     />
   );
 };
 
-export const ExpensesList = () => {
+export const ExpensesList = ({
+  onView,
+}: {
+  onView: (expenseId: string) => void;
+}) => {
   return (
     <QueryClientProviderWrapper>
-      <VirtualExpensesListA />
+      <VirtualExpensesListA onView={onView} />
     </QueryClientProviderWrapper>
   );
 };

@@ -2,13 +2,13 @@ export const Price = ({
   amount,
   currency,
 }: {
-  amount: number;
-  currency: string;
+  amount?: number;
+  currency?: string;
 }) => {
   return (
     <div className="flex items-end gap-1 justify-end">
-      <span>{amount}</span>
-      <span className="text-xs">{currency}</span>
+      {amount && <span>{amount}</span>}
+      {currency && <span className="text-xs">{currency}</span>}
     </div>
   );
 };

@@ -8,7 +8,8 @@ export const VirtualList: React.FC<{
   expenses: Expense[];
   onLoadMore?: () => void;
   isFetchingMore?: boolean;
-}> = ({ expenses, onLoadMore = () => {}, isFetchingMore = false }) => {
+  onView: (expenseId: string) => void;
+}> = ({ expenses, onLoadMore = () => {}, onView, isFetchingMore = false }) => {
   const parentRef = useRef<HTMLDivElement>(null);
 
   const rowVirtualizer = useVirtualizer({
@@ -58,7 +59,10 @@ export const VirtualList: React.FC<{
                     transform: `translateY(${virtualRow.start}px)`,
                   }}
                 >
-                  <ExpenseRecord expense={expense} />
+                  <ExpenseRecord
+                    onView={() => onView(expense.id)}
+                    expense={expense}
+                  />
                 </div>
               );
             })}
