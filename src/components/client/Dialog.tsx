@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import {
@@ -37,13 +38,13 @@ export const Dialog = ({ title, onClose, children }: DialogProps) => {
             </Button>
             {title && (
               <DialogTitle
-                as="h3"
+                as="h1"
                 className="text-base/7 font-medium text-white"
               >
                 {title}
               </DialogTitle>
             )}
-            {children}
+            <div className="mt-4">{children}</div>
           </DialogPanel>
         </div>
       </div>

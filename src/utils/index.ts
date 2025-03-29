@@ -1,4 +1,7 @@
-export const dateToText = (date: Date | string) => {
+export const dateToText = (date: Date | string | undefined) => {
+  if (!date) {
+    return "--";
+  }
   if (typeof date === "string") {
     date = new Date(date);
   }

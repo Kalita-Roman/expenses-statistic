@@ -1,6 +1,5 @@
 import { Expense } from "@/types";
-import { Price } from "@/components/presentation/Price";
-import { dateToText } from "@/utils";
+import { Price, Date } from "@/components/presentation";
 
 export const ExpenseRecord = ({
   expense,
@@ -12,7 +11,7 @@ export const ExpenseRecord = ({
   return (
     <div className="flex justify-between px-4 py-2" onClick={onView}>
       <Price amount={expense.amount} currency={expense.currency} />
-      <div>{dateToText(expense.date)}</div>
+      <Date date={expense.date} />
     </div>
   );
 };
