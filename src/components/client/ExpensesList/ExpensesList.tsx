@@ -3,6 +3,7 @@ import React from "react";
 import { VirtualList } from "./VirtualList";
 import { QueryClientProviderWrapper } from "./QueryClientProviderWrapper";
 import useInfinityLoading from "./hooks/useInfinityLoading";
+import { useRouter } from "next/navigation";
 
 const fetchExpenses = async ({
   pageParam = 0,
@@ -13,32 +14,29 @@ const fetchExpenses = async ({
   return response;
 };
 
-export const VirtualExpensesListA = ({
-  onView,
-}: {
-  onView: (expenseId: string) => void;
-}) => {
+export const VirtualExpensesListA = () => {
+  const router = useRouter();
   const { expenses, tryToFetchNextPage, isFetchingNextPage } =
     useInfinityLoading({ fetchExpenses });
+
+  const handleView = (expenseId: string) => {
+    router.push(`/expenses/view/${expenseId}`);
+  };
 
   return (
     <VirtualList
       expenses={expenses}
       onLoadMore={tryToFetchNextPage}
-      onView={onView}
+      onView={handleView}
       isFetchingMore={isFetchingNextPage}
     />
   );
 };
 
-export const ExpensesList = ({
-  onView,
-}: {
-  onView: (expenseId: string) => void;
-}) => {
+export const ExpensesList = () => {
   return (
     <QueryClientProviderWrapper>
-      <VirtualExpensesListA onView={onView} />
+      <VirtualExpensesListA />
     </QueryClientProviderWrapper>
   );
 };
