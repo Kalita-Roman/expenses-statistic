@@ -1,42 +1,43 @@
 "use client";
-import React from "react";
-import { VirtualList } from "./VirtualList";
-import { QueryClientProviderWrapper } from "./QueryClientProviderWrapper";
-import useInfinityLoading from "./hooks/useInfinityLoading";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { ViewDialog, ExpenseRecord, VirtualList } from "@/components/client";
+import { Expense } from "@/types";
 
 const fetchExpenses = async ({
   pageParam = 0,
 }: { pageParam?: number } | undefined = {}) => {
-  const response = await fetch(`/api/expenses?page=${pageParam}`).then((res) =>
+  const response = (await fetch(`/api/expenses?page=${pageParam}`).then((res) =>
     res.json()
-  );
+  )) as Promise<{
+    data: Expense[];
+    meta: { isLast: boolean; page: number };
+  }>;
   return response;
 };
 
-export const VirtualExpensesListA = () => {
-  const router = useRouter();
-  const { expenses, tryToFetchNextPage, isFetchingNextPage } =
-    useInfinityLoading({ fetchExpenses });
+export const ExpensesList = () => {
+  const [expenseToView, setExpenseToView] = useState<Expense | null>(null);
 
-  const handleView = (expenseId: string) => {
-    router.push(`/expenses/view/${expenseId}`);
+  const handleView = (expense: Expense) => {
+    setExpenseToView(expense);
+  };
+
+  const handleCloseView = () => {
+    setExpenseToView(null);
   };
 
   return (
-    <VirtualList
-      expenses={expenses}
-      onLoadMore={tryToFetchNextPage}
-      onView={handleView}
-      isFetchingMore={isFetchingNextPage}
-    />
-  );
-};
-
-export const ExpensesList = () => {
-  return (
-    <QueryClientProviderWrapper>
-      <VirtualExpensesListA />
-    </QueryClientProviderWrapper>
+    <>
+      <VirtualList
+        queryKey={["expenses"]}
+        queryFn={({ pageParam = 0 }) => fetchExpenses({ pageParam })}
+        renderItem={(item) => (
+          <ExpenseRecord expense={item} onView={() => handleView(item)} />
+        )}
+      />
+      {expenseToView && (
+        <ViewDialog expense={expenseToView} onClose={handleCloseView} />
+      )}
+    </>
   );
 };

@@ -1,26 +1,16 @@
-import { redirect } from "next/navigation";
+import React from "react";
 import { Dialog } from "@/components/client";
 import { Price, Date, Button, ButtonType } from "@/components/presentation";
-import { getExpense } from "@/services/expensesService";
+import { Expense } from "@/types/Expense.types";
 
-interface ViewExpenseProps {
-  params: Promise<{
-    expenseId: string;
-  }>;
+interface ViewExpenseDialogProps {
+  expense: Expense;
+  onClose: () => void;
 }
 
-export default async function ViewExpense({ params }: ViewExpenseProps) {
-  const handleClose = async () => {
-    "use server";
-    redirect("/expenses");
-  };
-
-  const { expenseId } = await params;
-
-  const expense = await getExpense({ id: expenseId });
-
+export const ViewDialog = ({ expense, onClose }: ViewExpenseDialogProps) => {
   return (
-    <Dialog title={"Expense"} onClose={handleClose}>
+    <Dialog title="Expense" onClose={onClose}>
       <div className="flex flex-col gap-8">
         <div className="flex justify-between">
           <Price amount={expense?.amount} currency={expense?.currency} />
@@ -30,15 +20,15 @@ export default async function ViewExpense({ params }: ViewExpenseProps) {
           <Button
             buttonType={ButtonType.Outlined}
             className="col-span-1"
-            onClick={handleClose}
+            onClick={onClose}
           >
             Delete
           </Button>
-          <Button className="col-span-2" onClick={handleClose}>
+          <Button className="col-span-2" onClick={onClose}>
             Edit
           </Button>
         </div>
       </div>
     </Dialog>
   );
-}
+};

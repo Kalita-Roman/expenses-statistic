@@ -1,19 +1,40 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo, useCallback } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { ExpenseRecord } from "@/components/client";
-import { Expense } from "@/types";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { VirtualListProps } from "./VirtualList.types";
 
-export const VirtualList: React.FC<{
-  expenses: Expense[];
-  onLoadMore?: () => void;
-  isFetchingMore?: boolean;
-  onView: (expenseId: string) => void;
-}> = ({ expenses, onLoadMore = () => {}, onView, isFetchingMore = false }) => {
+export const VirtualListConsumer = <T,>({
+  queryFn,
+  queryKey = [],
+  pickId = (item) => JSON.stringify(item),
+  renderItem = () => null,
+}: VirtualListProps<T>) => {
   const parentRef = useRef<HTMLDivElement>(null);
 
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey,
+      queryFn,
+      initialPageParam: 0,
+      getNextPageParam: (lastPage) => {
+        const { isLast, page } = lastPage.meta;
+        return isLast ? undefined : page + 1;
+      },
+    });
+
+  const items = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) || [];
+  }, [data]);
+
+  const tryToFetchNextPage = useCallback(() => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, fetchNextPage]);
+
   const rowVirtualizer = useVirtualizer({
-    count: expenses.length,
+    count: items.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 40,
     overscan: 5,
@@ -25,12 +46,12 @@ export const VirtualList: React.FC<{
     const lastItemIndex = virtualItems.at(-1)?.index;
     if (
       lastItemIndex &&
-      lastItemIndex + 1 === expenses.length &&
-      !isFetchingMore
+      lastItemIndex + 1 === items.length &&
+      !isFetchingNextPage
     ) {
-      onLoadMore();
+      tryToFetchNextPage();
     }
-  }, [virtualItems, expenses, isFetchingMore, onLoadMore]);
+  }, [virtualItems, items, isFetchingNextPage, tryToFetchNextPage]);
 
   return (
     <div className="relative h-full w-full">
@@ -44,10 +65,10 @@ export const VirtualList: React.FC<{
             }}
           >
             {virtualItems.map((virtualRow) => {
-              const expense = expenses[virtualRow.index];
+              const item = items[virtualRow.index];
               return (
                 <div
-                  key={expense.id}
+                  key={pickId(item)}
                   data-index={virtualRow.index}
                   className="w-full"
                   style={{
@@ -59,10 +80,7 @@ export const VirtualList: React.FC<{
                     transform: `translateY(${virtualRow.start}px)`,
                   }}
                 >
-                  <ExpenseRecord
-                    onView={() => onView(expense.id)}
-                    expense={expense}
-                  />
+                  {renderItem(item)}
                 </div>
               );
             })}
