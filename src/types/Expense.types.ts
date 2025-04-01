@@ -9,6 +9,6 @@ export type Expense = {
 
 export type ExpenseServiceResponse = {
   data: Expense[];
-  meta: object;
+  meta: { isLast: boolean; page: number };
   error?: object;
 };

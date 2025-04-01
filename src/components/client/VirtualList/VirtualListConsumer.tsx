@@ -4,12 +4,14 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { VirtualListProps } from "./VirtualList.types";
 
-export const VirtualListConsumer = <T,>({
+export const VirtualListConsumer = <T, R>({
   queryFn,
   queryKey = [],
   pickId = (item) => JSON.stringify(item),
   renderItem = () => null,
-}: VirtualListProps<T>) => {
+  flatData,
+  getNextPageParam,
+}: VirtualListProps<T, R>) => {
   const parentRef = useRef<HTMLDivElement>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -17,15 +19,13 @@ export const VirtualListConsumer = <T,>({
       queryKey,
       queryFn,
       initialPageParam: 0,
-      getNextPageParam: (lastPage) => {
-        const { isLast, page } = lastPage.meta;
-        return isLast ? undefined : page + 1;
-      },
+      getNextPageParam,
     });
 
   const items = useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) || [];
-  }, [data]);
+    return (data && flatData(data)) || [];
+    // return data?.pages.flatMap((page) => page.data) || [];
+  }, [data, flatData]);
 
   const tryToFetchNextPage = useCallback(() => {
     if (hasNextPage) {

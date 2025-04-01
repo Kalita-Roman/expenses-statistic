@@ -1,17 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import { ViewDialog, ExpenseRecord, VirtualList } from "@/components/client";
-import { Expense } from "@/types";
+import { Expense, ExpenseServiceResponse } from "@/types";
+import { InfiniteData } from "@tanstack/react-query";
 
 const fetchExpenses = async ({
   pageParam = 0,
 }: { pageParam?: number } | undefined = {}) => {
   const response = (await fetch(`/api/expenses?page=${pageParam}`).then((res) =>
     res.json()
-  )) as Promise<{
-    data: Expense[];
-    meta: { isLast: boolean; page: number };
-  }>;
+  )) as Promise<ExpenseServiceResponse>;
   return response;
 };
 
@@ -34,6 +32,13 @@ export const ExpensesList = () => {
         renderItem={(item) => (
           <ExpenseRecord expense={item} onView={() => handleView(item)} />
         )}
+        flatData={(data: InfiniteData<ExpenseServiceResponse>) => {
+          return data.pages.flatMap((page) => page.data);
+        }}
+        getNextPageParam={(lastPage) => {
+          const { isLast, page } = lastPage.meta;
+          return isLast ? undefined : page + 1;
+        }}
       />
       {expenseToView && (
         <ViewDialog expense={expenseToView} onClose={handleCloseView} />
