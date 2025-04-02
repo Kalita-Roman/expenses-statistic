@@ -10,7 +10,7 @@ import {
 } from "@headlessui/react";
 
 type DialogProps = React.PropsWithChildren<{
-  onClose: () => void;
+  onClose?: () => void;
   title?: string;
 }>;
 

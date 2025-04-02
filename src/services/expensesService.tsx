@@ -1,3 +1,4 @@
+"use server";
 // import { validate as validateUUID } from "uuid";
 import { prisma } from "@/services/prismaService";
 import { getUserId } from "@/services/authService";
@@ -73,6 +74,17 @@ export const createExpense = async ({ amount }: { amount: number }) => {
       date: new Date(),
       amount: amount as unknown as number,
       currency: "PLN",
+      user_id: userId,
+    },
+  });
+};
+
+export const deleteExpense = async ({ id }: { id: string }) => {
+  const userId = await getUserId();
+
+  return prisma.expenses.deleteMany({
+    where: {
+      id,
       user_id: userId,
     },
   });

@@ -24,7 +24,6 @@ export const VirtualListConsumer = <T, R>({
 
   const items = useMemo(() => {
     return (data && flatData(data)) || [];
-    // return data?.pages.flatMap((page) => page.data) || [];
   }, [data, flatData]);
 
   const tryToFetchNextPage = useCallback(() => {
