@@ -1,8 +1,10 @@
 export { ExpenseForm } from "./ExpenseForm";
 export { ExpenseRecord } from "./ExpenseRecord";
-export { ExpensesList } from "./ExpensesList";
+export * from "./ExpensesList";
 export { LoadServiceWorker } from "./LoadServiceWorker";
 export * from "./ConfirmationDialog";
 export * from "./Dialog";
 export * from "./ViewDialog";
+export * from "./AddExpenseDialog";
+export * from "./AddExpenseButton";
 export * from "./VirtualList";

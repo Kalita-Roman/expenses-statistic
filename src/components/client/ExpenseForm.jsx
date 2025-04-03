@@ -5,7 +5,7 @@ import DecimalInput from "@/components/client/DecimalInput";
 import { createExpense } from "@/app/expenses/actions";
 import { Button } from "@/components/presentation/Button";
 
-export const ExpenseForm = ({ onDone = () => {}, isView } = {}) => {
+export const ExpenseForm = ({ onDone = () => {} } = {}) => {
   const [state, createExpenseFormAction, isPending] = useActionState(
     createExpense,
     ""

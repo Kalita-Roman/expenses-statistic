@@ -26,7 +26,7 @@ export const getExpenses = async ({
     where: { user_id: user },
     skip: page * PAGE_SIZE,
     take: PAGE_SIZE,
-    orderBy: { date: "desc" },
+    orderBy: [{ date: "desc" }, { created_at: "desc" }],
   });
 
   const total = await prisma.expenses.count({

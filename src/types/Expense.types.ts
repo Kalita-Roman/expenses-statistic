@@ -7,8 +7,12 @@ export type Expense = {
   category?: string;
 };
 
-export type ExpenseServiceResponse = {
-  data: Expense[];
-  meta: { isLast: boolean; page: number };
+export type PagedResponseMeta = { isLast: boolean; page: number };
+
+export type ServicePagedResponse<T> = {
+  data: T[];
+  meta: PagedResponseMeta;
   error?: object;
 };
+
+export type ExpenseServiceResponse = ServicePagedResponse<Expense>;
