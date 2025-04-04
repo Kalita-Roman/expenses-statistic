@@ -66,12 +66,18 @@ export const getExpense = async ({
   return convertExpense(expense);
 };
 
-export const createExpense = async ({ amount }: { amount: number }) => {
+export const createExpense = async ({
+  amount,
+  date,
+}: {
+  amount: number;
+  date: string;
+}) => {
   const userId = await getUserId();
 
   return prisma.expenses.create({
     data: {
-      date: new Date(),
+      date: new Date(date),
       amount: amount as unknown as number,
       currency: "PLN",
       user_id: userId,

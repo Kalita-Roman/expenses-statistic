@@ -9,7 +9,7 @@ export const Input = ({
   return (
     <input
       className={twMerge(
-        "border border-gray-300 rounded px-2 py-1 text-black focus:outline-none focus:ring-2 focus:ring-blue-500",
+        "border border-gray-300 rounded px-2 py-1 text-black focus:outline-none focus:ring-2 focus:ring-blue-500 h-8",
         className
       )}
       {...props}

@@ -14,7 +14,11 @@ type DialogProps = React.PropsWithChildren<{
   title?: string;
 }>;
 
-export const Dialog = ({ title, onClose, children }: DialogProps) => {
+export const Dialog = ({
+  title,
+  onClose = () => {},
+  children,
+}: DialogProps) => {
   return (
     <HeadlessDialog
       open
