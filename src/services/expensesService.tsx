@@ -1,19 +1,8 @@
 "use server";
-// import { validate as validateUUID } from "uuid";
 import { prisma } from "@/services/prismaService";
 import { getUserId } from "@/services/authService";
 import { Expense, ExpenseServiceResponse } from "@/types";
-
-type re = ReturnType<typeof prisma.expenses.findMany>;
-type re2 = re extends Promise<infer T> ? T : never;
-type ExpenseDB = re2 extends Array<infer T> ? T : never;
-
-const convertExpense = (expense: ExpenseDB): Expense => ({
-  id: expense.id,
-  date: expense.date,
-  currency: expense.currency,
-  amount: expense.amount.toNumber(),
-});
+import * as repository from "@/services/repository";
 
 const PAGE_SIZE = 20;
 
@@ -22,19 +11,11 @@ export const getExpenses = async ({
 }: { page?: number } = {}): Promise<ExpenseServiceResponse> => {
   const user = await getUserId();
 
-  const expenses = await prisma.expenses.findMany({
-    where: { user_id: user },
-    skip: page * PAGE_SIZE,
-    take: PAGE_SIZE,
-    orderBy: [{ date: "desc" }, { created_at: "desc" }],
-  });
-
-  const total = await prisma.expenses.count({
-    where: { user_id: user },
-  });
+  const expenses = await repository.getExpensesPage({ user, page });
+  const total = await repository.getExpensesCount({ user });
 
   return {
-    data: expenses.map(convertExpense),
+    data: expenses,
     meta: {
       page,
       isLast: (page + 1) * PAGE_SIZE >= total,
@@ -48,22 +29,7 @@ export const getExpense = async ({
   id: string;
 }): Promise<Expense | null> => {
   const user = await getUserId();
-
-  let expense: ExpenseDB | null = null;
-  try {
-    expense = await prisma.expenses.findFirst({
-      where: { id, user_id: user },
-    });
-  } catch (e) {
-    console.error("Error fetching expense:", e);
-    return null;
-  }
-
-  if (!expense) {
-    return null;
-  }
-
-  return convertExpense(expense);
+  return repository.getExpense({ user, id });
 };
 
 export const createExpense = async ({

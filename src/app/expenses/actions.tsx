@@ -29,32 +29,3 @@ export async function createExpense(prevState: unknown, formData: FormData) {
     return { error };
   }
 }
-
-export async function editExpense(
-  prevState: unknown,
-  formData: FormData,
-  id: string
-) {
-  try {
-    const amount = formData.get("amount");
-
-    if (amount === null) {
-      throw new Error("Amount is required");
-    }
-
-    const expense = await expensesService.updateExpense({
-      id,
-      amount: amount as unknown as number,
-    });
-
-    return {
-      data: {
-        ...(expense as unknown as Expense),
-        amount: expense.amount.toNumber(),
-      },
-    };
-  } catch (error) {
-    console.error(error);
-    return { error };
-  }
-}

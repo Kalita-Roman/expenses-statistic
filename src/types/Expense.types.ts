@@ -16,3 +16,9 @@ export type ServicePagedResponse<T> = {
 };
 
 export type ExpenseServiceResponse = ServicePagedResponse<Expense>;
+
+export type Category = {
+  id: string;
+};
+
+export type CategoryServiceResponse = Category[];

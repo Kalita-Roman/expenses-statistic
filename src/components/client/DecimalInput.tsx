@@ -2,14 +2,18 @@
 import { useState, useEffect } from "react";
 import { Input } from "@/components/presentation";
 
+interface DecimalInputProps {
+  className?: string;
+  defaultValue?: number;
+  name?: string;
+  disabled?: boolean;
+}
+
 export const DecimalInput = ({
   className,
   defaultValue,
   ...restProps
-}: {
-  className?: string;
-  defaultValue?: number;
-}) => {
+}: DecimalInputProps) => {
   const [value, setValue] = useState("");
 
   useEffect(() => {

@@ -4,14 +4,20 @@ import { useEffect, useActionState } from "react";
 import { DecimalInput, DatePicker } from "@/components/client";
 import { createExpense } from "@/app/expenses/actions";
 import { Button } from "@/components/presentation/Button";
+import { Category } from "@/types";
 
-export const ExpenseForm = ({ onDone = () => {} } = {}) => {
+interface ExpenseFormProps {
+  onDone?: () => void;
+  categories?: Category[];
+}
+
+export const ExpenseForm = ({ onDone = () => {}, categories = [] }: ExpenseFormProps = {}) => {
   const [state, createExpenseFormAction, isPending] = useActionState(
     createExpense,
-    ""
+    { data: undefined, error: undefined }
   );
   useEffect(() => {
-    if (!isPending && state) {
+    if (!isPending && state.data) {
       onDone();
     }
   }, [isPending, state]);
@@ -21,6 +27,7 @@ export const ExpenseForm = ({ onDone = () => {} } = {}) => {
   return (
     <Form action={createExpenseFormAction} className="flex flex-col space-y-4">
       <div className="flex flex-col space-y-4">
+        {JSON.stringify(categories)}
         <DecimalInput name="amount" disabled={isPending} />
         <DatePicker name="date" defaultValue={currentDate} />
         <Button type="submit" disabled={isPending}>
