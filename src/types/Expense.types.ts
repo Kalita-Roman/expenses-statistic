@@ -19,6 +19,7 @@ export type ExpenseServiceResponse = ServicePagedResponse<Expense>;
 
 export type Category = {
   id: string;
+  name: string;
 };
 
 export type CategoryServiceResponse = Category[];

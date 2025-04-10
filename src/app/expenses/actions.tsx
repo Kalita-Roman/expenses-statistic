@@ -1,13 +1,14 @@
 "use server";
 import * as expensesService from "@/services/expensesService";
 import { Expense } from "@/types";
-import { console } from "inspector";
 
 export async function createExpense(prevState: unknown, formData: FormData) {
   try {
     const amount = formData.get("amount");
     const date = formData.get("date");
-    console.log(">>> date", date);
+    const category = formData.get("category");
+    console.log(">>> date", date?.toString());
+    console.log(">>> category", category?.toString());
 
     if (amount === null) {
       throw new Error("Amount is required");
