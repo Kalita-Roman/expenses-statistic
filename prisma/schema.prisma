@@ -24,6 +24,7 @@ model category {
   id                                   String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                                 String     @db.VarChar(255)
   note                                 String?
+  order                                Int        @default(-1)
   expenses_expenses_categoryTocategory expenses[] @relation("expenses_categoryTocategory")
 }
 
