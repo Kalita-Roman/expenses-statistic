@@ -35,9 +35,11 @@ export const getExpense = async ({
 export const createExpense = async ({
   amount,
   date,
+  category,
 }: {
   amount: number;
   date: string;
+  category: string;
 }) => {
   const userId = await getUserId();
 
@@ -45,6 +47,7 @@ export const createExpense = async ({
     data: {
       date: new Date(date),
       amount: amount as unknown as number,
+      category,
       currency: "PLN",
       user_id: userId,
     },

@@ -7,8 +7,6 @@ export async function createExpense(prevState: unknown, formData: FormData) {
     const amount = formData.get("amount");
     const date = formData.get("date");
     const category = formData.get("category");
-    console.log(">>> date", date?.toString());
-    console.log(">>> category", category?.toString());
 
     if (amount === null) {
       throw new Error("Amount is required");
@@ -17,6 +15,7 @@ export async function createExpense(prevState: unknown, formData: FormData) {
     const expense = await expensesService.createExpense({
       amount: amount as unknown as number,
       date: date as string,
+      category: category as string,
     });
 
     return {

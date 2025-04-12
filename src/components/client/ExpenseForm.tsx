@@ -28,7 +28,6 @@ export const ExpenseForm = ({ onDone = () => { }, categories = [] }: ExpenseForm
   return (
     <Form action={createExpenseFormAction} className="flex flex-col space-y-4">
       <div className="flex flex-col space-y-4">
-        {JSON.stringify(categories)}
         <DecimalInput name="amount" disabled={isPending} />
         <DatePicker name="date" defaultValue={currentDate} />
         <Select

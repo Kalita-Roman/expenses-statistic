@@ -1,5 +1,5 @@
 import { prisma } from "@/services/prismaService";
-import { UserId, Expense } from "@/types";
+import { UserId, Expense, Category } from "@/types";
 
 const PAGE_SIZE = 20;
 
@@ -48,3 +48,9 @@ export const getExpense = async ({ id, user }: { id: string; user: UserId }): Pr
 
   return convertExpense(expense);
 }
+
+export const getCategories = async (): Promise<Category[]> => {
+  const categories = await prisma.category.findMany({});
+
+  return categories.map((category) => ({ name: category.name, id: category.id }));
+};

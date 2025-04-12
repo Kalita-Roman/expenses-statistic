@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface SelectProps<T> {
   name?: string;
@@ -32,7 +33,10 @@ export const Select = <T,>({
       //   if (onChange) onChange(options[selectedIndex]);
       // }}
       disabled={disabled}
-      className={className}
+      className={twMerge(
+        "border border-gray-300 rounded px-2 py-1 text-black focus:outline-none focus:ring-2 focus:ring-blue-500 h-8",
+        className
+      )}
     >
       {options.map((option, index) => (
         <option key={index} value={pickValue(option)}>
