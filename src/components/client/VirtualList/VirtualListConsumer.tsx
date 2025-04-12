@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useMemo, useCallback } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { VirtualListProps } from "./VirtualList.types";
+import { BusyIndicator } from "@/components/presentation";
 
 export const VirtualListConsumer = <T, R>({
   queryFn,
@@ -14,7 +15,7 @@ export const VirtualListConsumer = <T, R>({
 }: VirtualListProps<T, R>) => {
   const parentRef = useRef<HTMLDivElement>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey,
       queryFn,
@@ -85,6 +86,11 @@ export const VirtualListConsumer = <T, R>({
             })}
           </div>
         </div>
+        {isFetching && (
+          <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
+            <BusyIndicator />
+          </div>
+        )}
       </div>
     </div>
   );
