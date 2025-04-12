@@ -4,7 +4,7 @@ export type Expense = {
   amount: number;
   currency: string;
   note?: string;
-  category?: string;
+  category: string | null;
 };
 
 export type PagedResponseMeta = { isLast: boolean; page: number };

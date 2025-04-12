@@ -11,6 +11,7 @@ const convertExpense = (expense: ExpenseDB): Expense => ({
   id: expense.id,
   date: expense.date,
   currency: expense.currency,
+  category: expense.category,
   amount: expense.amount.toNumber(),
 });
 
