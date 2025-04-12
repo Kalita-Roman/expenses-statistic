@@ -7,6 +7,7 @@ interface DecimalInputProps {
   defaultValue?: number;
   name?: string;
   disabled?: boolean;
+  readOnly?: boolean;
 }
 
 export const DecimalInput = ({

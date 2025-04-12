@@ -10,3 +10,4 @@ export * from "./AddExpenseButton";
 export * from "./VirtualList";
 export * from "./DecimalInput";
 export * from "./DatePicker";
+export * from "./PriceInput";
