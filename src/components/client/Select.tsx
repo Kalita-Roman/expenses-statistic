@@ -6,17 +6,20 @@ import { twMerge } from "tailwind-merge";
 interface SelectProps<T> {
   name?: string;
   options: T[];
+  defaultValue?: T;
   value?: T;
   onChange?: (value: T) => void;
   pickName?: (option: T) => string;
   pickValue?: (option: T) => string;
   disabled?: boolean;
   className?: string;
+  isEdit?: boolean;
 }
 
 export const Select = <T,>({
   name,
-  options,
+  options = [],
+  defaultValue,
   // value,
   // onChange,
   pickName = (option) => String(option),
@@ -24,6 +27,9 @@ export const Select = <T,>({
   disabled = false,
   className,
 }: SelectProps<T>) => {
+  const shapeClasses = "border rounded px-2 py-1 h-8";
+  const readOnlyClasses = "border-gray-600 bg-inherit cursor-not-allowed text-white";
+  const editableClasses = "border-gray-300 text-black";
   return (
     <select
       name={name}
@@ -32,9 +38,12 @@ export const Select = <T,>({
       //   const selectedIndex = parseInt(e.target.value, 10);
       //   if (onChange) onChange(options[selectedIndex]);
       // }}
+      defaultValue={defaultValue && pickValue(defaultValue)}
       disabled={disabled}
       className={twMerge(
-        "border border-gray-300 rounded px-2 py-1 text-black focus:outline-none focus:ring-2 focus:ring-blue-500 h-8",
+        shapeClasses,
+        disabled ? readOnlyClasses : editableClasses,
+        "focus:outline-none focus:ring-2 focus:ring-blue-500",
         className
       )}
     >

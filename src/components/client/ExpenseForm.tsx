@@ -1,8 +1,7 @@
 "use client";
 import Form from "next/form";
 import { useEffect, useActionState } from "react";
-import { DecimalInput, DatePicker } from "@/components/client";
-import { Select } from "@/components/client/Select";
+import { DatePicker, PriceInput, Select } from "@/components/client";
 import { createExpense } from "@/app/expenses/actions";
 import { Button } from "@/components/presentation/Button";
 import { Category } from "@/types";
@@ -28,8 +27,6 @@ export const ExpenseForm = ({ onDone = () => { }, categories = [] }: ExpenseForm
   return (
     <Form action={createExpenseFormAction} className="flex flex-col space-y-4">
       <div className="flex flex-col space-y-4">
-        <DecimalInput name="amount" disabled={isPending} />
-        <DatePicker name="date" defaultValue={currentDate} />
         <Select
           name="category"
           options={categories}
@@ -38,6 +35,8 @@ export const ExpenseForm = ({ onDone = () => { }, categories = [] }: ExpenseForm
           pickName={(category) => category?.name}
           pickValue={(category) => category?.id}
         />
+        <PriceInput disabled={isPending} currency="PLN" isEdit />
+        <DatePicker name="date" defaultValue={currentDate} />
         <Button type="submit" disabled={isPending}>
           Submit
         </Button>

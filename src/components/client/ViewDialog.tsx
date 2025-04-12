@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { Dialog, ConfirmationDialog } from "@/components/client";
 import { useCategory } from "@/components/client/Category/CategoryProvider";
-import { Date, Button, ButtonType, Currency } from "@/components/presentation";
-import { DecimalInput, PriceInput } from "@/components/client";
+import { Date, Button, ButtonType } from "@/components/presentation";
+import { PriceInput, Select } from "@/components/client";
 import { Expense } from "@/types/Expense.types";
 import { deleteExpense } from "@/services/expensesService";
 import { useConfirmationAction } from "@/hooks";
@@ -14,7 +14,7 @@ interface ViewExpenseDialogProps {
 }
 
 export const ViewDialog = ({ expense, onClose }: ViewExpenseDialogProps) => {
-  const { getCategoryById } = useCategory();
+  const { getCategoryById, categories } = useCategory();
   const [isEditing, setIsEditing] = useState(false);
   const { isWaiting, handleConfirm, handleReject, withConfirmation } =
     useConfirmationAction();
@@ -30,7 +30,7 @@ export const ViewDialog = ({ expense, onClose }: ViewExpenseDialogProps) => {
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-4">
             <Date date={expense?.date} />
-            {getCategoryById(expense?.category || undefined)?.name}
+            <Select options={categories} defaultValue={getCategoryById(expense?.category || undefined)} disabled={!isEditing} pickName={x => x!.name} pickValue={x => x!.id} />
             <PriceInput amount={expense?.amount} currency={expense?.currency} isEdit={isEditing} />
           </div>
           {!isEditing && (
