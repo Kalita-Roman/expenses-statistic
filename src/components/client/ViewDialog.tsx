@@ -1,12 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import Form from "next/form";
+import React, { useState, useActionState, useEffect } from "react";
 import { Dialog, ConfirmationDialog } from "@/components/client";
 import { useCategory } from "@/components/client/Category/CategoryProvider";
-import { Date, Button, ButtonType } from "@/components/presentation";
-import { PriceInput, Select } from "@/components/client";
+import { Button, ButtonType } from "@/components/presentation";
+import { PriceInput, Select, DatePicker } from "@/components/client";
 import { Expense } from "@/types/Expense.types";
 import { deleteExpense } from "@/services/expensesService";
+import { editExpense } from "@/app/expenses/actions";
 import { useConfirmationAction } from "@/hooks";
+import { dateToText } from "@/utils";
 
 interface ViewExpenseDialogProps {
   expense: Expense;
@@ -24,48 +27,67 @@ export const ViewDialog = ({ expense, onClose }: ViewExpenseDialogProps) => {
     onClose();
   };
 
+  const [state, editExpenseFormAction, isPending] = useActionState(
+    editExpense,
+    { data: undefined, error: undefined }
+  );
+
+  useEffect(() => {
+    if (!isPending && state.data) {
+      onClose();
+    }
+  }, [isPending, state]);
+
   return (
     <>
       <Dialog title="Expense" onClose={onClose}>
-        <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-4">
-            <Date date={expense?.date} />
-            <Select options={categories} defaultValue={getCategoryById(expense?.category || undefined)} disabled={!isEditing} pickName={x => x!.name} pickValue={x => x!.id} />
-            <PriceInput amount={expense?.amount} currency={expense?.currency} isEdit={isEditing} />
+        <Form action={editExpenseFormAction} onKeyDown={(e) => {
+          if (e.key === "Enter" && Boolean((e.target as HTMLInputElement).name)) {
+            e.preventDefault();
+          }
+        }}>
+          <input type="hidden" name="id" value={expense.id} />
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-4">
+              <DatePicker name="date" defaultValue={dateToText(expense?.date)} readOnly={!isEditing} />
+              <Select name="category" options={categories} defaultValue={getCategoryById(expense?.category || undefined)} disabled={!isEditing} pickName={x => x!.name} pickValue={x => x!.id} />
+              <PriceInput amount={expense?.amount} currency={expense?.currency} isEdit={isEditing} />
+            </div>
+            {!isEditing && (
+              <div className="grid grid-cols-3 gap-4">
+                <Button
+                  buttonType={ButtonType.Outlined}
+                  className="col-span-1"
+                  onClick={withConfirmation(handleDelete)}
+                >
+                  Delete
+                </Button>
+                <Button className="col-span-2" onClick={() => setIsEditing(true)}>
+                  Edit
+                </Button>
+              </div>
+            )}
+            {isEditing && (
+              <div className="grid grid-cols-3 gap-4">
+                <Button
+                  formAction={editExpenseFormAction}
+                  buttonType={ButtonType.Outlined}
+                  className="col-span-1"
+                >
+                  Save
+                </Button>
+                <Button className="col-span-2" onClick={() => setIsEditing(false)}>
+                  Cancel
+                </Button>
+              </div>
+            )}
           </div>
-          {!isEditing && (
-            <div className="grid grid-cols-3 gap-4">
-              <Button
-                buttonType={ButtonType.Outlined}
-                className="col-span-1"
-                onClick={withConfirmation(handleDelete)}
-              >
-                Delete
-              </Button>
-              <Button className="col-span-2" onClick={() => setIsEditing(true)}>
-                Edit
-              </Button>
-            </div>
-          )}
-          {isEditing && (
-            <div className="grid grid-cols-3 gap-4">
-              <Button
-                buttonType={ButtonType.Outlined}
-                className="col-span-1"
-                onClick={withConfirmation(handleDelete)}
-              >
-                Save
-              </Button>
-              <Button className="col-span-2" onClick={() => setIsEditing(false)}>
-                Cancel
-              </Button>
-            </div>
-          )}
-        </div>
-      </Dialog>
+        </Form>
+      </Dialog >
       {isWaiting && (
         <ConfirmationDialog onConfirm={handleConfirm} onReject={handleReject} />
-      )}
+      )
+      }
     </>
   );
 };

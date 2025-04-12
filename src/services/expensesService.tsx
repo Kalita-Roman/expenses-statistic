@@ -54,6 +54,33 @@ export const createExpense = async ({
   });
 };
 
+export const editExpense = async ({
+  id,
+  amount,
+  date,
+  category,
+}: {
+  id: string;
+  amount: number;
+  date: string;
+  category: string;
+}) => {
+  const userId = await getUserId();
+
+  return prisma.expenses.updateMany({
+    where: {
+      id,
+      user_id: userId,
+    },
+    data: {
+      date: new Date(date),
+      amount: amount as unknown as number,
+      category,
+      currency: "PLN",
+    },
+  });
+}
+
 export const deleteExpense = async ({ id }: { id: string }) => {
   const userId = await getUserId();
 
