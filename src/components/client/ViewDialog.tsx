@@ -54,29 +54,28 @@ export const ViewDialog = ({ expense, onClose }: ViewExpenseDialogProps) => {
               <PriceInput amount={expense?.amount} currency={expense?.currency} isEdit={isEditing} />
             </div>
             {!isEditing && (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-[1fr,2fr] gap-4">
                 <Button
                   buttonType={ButtonType.Outlined}
-                  className="col-span-1"
                   onClick={withConfirmation(handleDelete)}
                 >
                   Delete
                 </Button>
-                <Button className="col-span-2" onClick={() => setIsEditing(true)}>
+                <Button
+                  onClick={() => setIsEditing(true)}>
                   Edit
                 </Button>
               </div>
             )}
             {isEditing && (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-[1fr,2fr] gap-4">
                 <Button
                   formAction={editExpenseFormAction}
                   buttonType={ButtonType.Outlined}
-                  className="col-span-1"
                 >
                   Save
                 </Button>
-                <Button className="col-span-2" onClick={() => setIsEditing(false)}>
+                <Button onClick={() => setIsEditing(false)}>
                   Cancel
                 </Button>
               </div>
