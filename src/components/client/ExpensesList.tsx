@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { ViewDialog, ExpenseRecord, VirtualList } from "@/components/client";
+import { ViewExpenseDialog, ExpenseRecord, VirtualList } from "@/components/client";
 import { Expense, ExpenseServiceResponse } from "@/types";
 import { InfiniteData } from "@tanstack/react-query";
 
@@ -41,7 +41,7 @@ export const ExpensesList = () => {
         }}
       />
       {expenseToView && (
-        <ViewDialog expense={expenseToView} onClose={handleCloseView} />
+        <ViewExpenseDialog expense={expenseToView} onClose={handleCloseView} />
       )}
     </>
   );

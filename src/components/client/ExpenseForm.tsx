@@ -22,7 +22,7 @@ export const ExpenseForm = ({ onDone = () => { }, categories = [] }: ExpenseForm
     }
   }, [isPending, state]);
 
-  const currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+  const currentDate = new Date().toISOString().split("T")[0];
 
   return (
     <Form action={createExpenseFormAction} className="flex flex-col space-y-4">

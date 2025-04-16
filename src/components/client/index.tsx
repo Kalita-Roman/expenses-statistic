@@ -10,5 +10,6 @@ export * from "./DecimalInput";
 export * from "./Dialog";
 export * from "./PriceInput";
 export * from "./Select";
-export * from "./ViewDialog";
+export * from "./ViewExpenseDialog";
+export * from "./ViewExpenseForm";
 export * from "./VirtualList";
