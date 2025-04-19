@@ -4,7 +4,7 @@ export type Expense = {
   amount: number;
   currency: string;
   note?: string;
-  category: string | null;
+  category: CategoryId | null;
 };
 
 export type PagedResponseMeta = { isLast: boolean; page: number };
@@ -17,8 +17,9 @@ export type ServicePagedResponse<T> = {
 
 export type ExpenseServiceResponse = ServicePagedResponse<Expense>;
 
+export type CategoryId = string;
 export type Category = {
-  id: string;
+  id: CategoryId;
   name: string;
 };
 

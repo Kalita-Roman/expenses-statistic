@@ -1,9 +1,9 @@
-export { ExpenseForm } from "./ExpenseForm";
 export { ExpenseRecord } from "./ExpenseRecord";
 export * from "./ExpensesList";
 export { LoadServiceWorker } from "./LoadServiceWorker";
 export * from "./AddExpenseButton";
 export * from "./AddExpenseDialog";
+export * from "./CategorySelect";
 export * from "./ConfirmationDialog";
 export * from "./DatePicker";
 export * from "./DecimalInput";

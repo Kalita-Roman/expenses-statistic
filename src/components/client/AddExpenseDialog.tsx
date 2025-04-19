@@ -1,5 +1,6 @@
 import { Dialog } from "@/components/client";
-import { ExpenseForm } from "@/components/client";
+import { ViewExpenseForm } from "@/components/client";
+import { createExpense } from "@/app/expenses/actions";
 import { Category } from "@/types";
 
 interface AddExpenseDialogProps {
@@ -7,10 +8,10 @@ interface AddExpenseDialogProps {
   categories: Category[];
 }
 
-export const AddExpenseDialog = ({ categories, onClose }: AddExpenseDialogProps) => {
+export const AddExpenseDialog = ({ onClose }: AddExpenseDialogProps) => {
   return (
     <Dialog title={"Add expense"} onClose={onClose}>
-      <ExpenseForm categories={categories} onDone={onClose} />
+      <ViewExpenseForm action={createExpense} isEditing={true} onDone={onClose} onDelete={() => { }} onEdit={() => { }} onCancel={() => { }} />
     </Dialog>
   );
 };

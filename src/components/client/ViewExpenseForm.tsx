@@ -1,27 +1,24 @@
 "use client";
 import Form from "next/form";
 import React, { useActionState, useEffect } from "react";
-import { useCategory } from "@/components/client/Category/CategoryProvider";
 import { Button, ButtonType } from "@/components/presentation";
-import { PriceInput, Select, DatePicker } from "@/components/client";
+import { PriceInput, CategorySelect, DatePicker } from "@/components/client";
 import { Expense } from "@/types/Expense.types";
-import { editExpense } from "@/app/expenses/actions";
 import { dateToText } from "@/utils";
 
 interface ViewExpenseFormProps {
-  expense: Expense;
+  expense?: Expense;
   isEditing: boolean;
   onDelete: () => void;
   onEdit: () => void;
   onCancel: () => void;
   onDone: () => void;
+  action: unknown;
 }
 
-export const ViewExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, onCancel }: ViewExpenseFormProps) => {
-  const { getCategoryById, categories } = useCategory();
-
+export const ViewExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, onCancel, action }: ViewExpenseFormProps) => {
   const [state, editExpenseFormAction, isPending] = useActionState(
-    editExpense,
+    action as (state: { data: unknown; error: unknown; }, payload?: unknown) => { data: unknown; error: unknown; } | Promise<{ data: unknown; error: unknown; }>,
     { data: undefined, error: undefined }
   );
 
@@ -37,14 +34,14 @@ export const ViewExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, 
         e.preventDefault();
       }
     }}>
-      <input type="hidden" name="id" value={expense.id} />
+      {expense && <input type="hidden" name="id" value={expense.id} />}
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <DatePicker name="date" defaultValue={dateToText(expense?.date)} readOnly={!isEditing} />
-          <Select name="category" options={categories} defaultValue={getCategoryById(expense?.category || undefined)} disabled={!isEditing} pickName={x => x!.name} pickValue={x => x!.id} />
+          <CategorySelect categoryId={expense?.category || undefined} />
           <PriceInput amount={expense?.amount} currency={expense?.currency} isEdit={isEditing} />
         </div>
-        {!isEditing && (
+        {expense && !isEditing && (
           <div className="grid grid-cols-[1fr,2fr] gap-4">
             <Button
               buttonType={ButtonType.Outlined}
@@ -58,10 +55,10 @@ export const ViewExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, 
             </Button>
           </div>
         )}
-        {isEditing && (
+        {expense && isEditing && (
           <div className="grid grid-cols-[1fr,2fr] gap-4">
             <Button
-              formAction={editExpenseFormAction}
+              type="submit"
               buttonType={ButtonType.Outlined}
             >
               Save
@@ -71,6 +68,9 @@ export const ViewExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, 
             </Button>
           </div>
         )}
+        {!expense && <Button type="submit" disabled={isPending}>
+          Submit
+        </Button>}
       </div>
     </Form>
   );
