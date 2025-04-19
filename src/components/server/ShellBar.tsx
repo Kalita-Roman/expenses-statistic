@@ -20,7 +20,7 @@ export const ShellBar = async () => {
         && (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={session.user.image} alt="avatar" className="w-8 h-8" />
+            {session.user.image && <img src={session.user.image} alt="avatar" className="w-8 h-8" />}
             <form
               action={async () => {
                 "use server";

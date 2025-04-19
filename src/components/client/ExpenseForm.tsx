@@ -6,7 +6,7 @@ import { PriceInput, CategorySelect, DatePicker } from "@/components/client";
 import { Expense } from "@/types/Expense.types";
 import { dateToText } from "@/utils";
 
-interface ViewExpenseFormProps {
+interface ExpenseFormProps {
   expense?: Expense;
   isEditing: boolean;
   onDelete: () => void;
@@ -16,7 +16,7 @@ interface ViewExpenseFormProps {
   action: unknown;
 }
 
-export const ViewExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, onCancel, action }: ViewExpenseFormProps) => {
+export const ExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, onCancel, action }: ExpenseFormProps) => {
   const [state, editExpenseFormAction, isPending] = useActionState(
     action as (state: { data: unknown; error: unknown; }, payload?: unknown) => { data: unknown; error: unknown; } | Promise<{ data: unknown; error: unknown; }>,
     { data: undefined, error: undefined }

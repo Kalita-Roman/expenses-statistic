@@ -11,5 +11,5 @@ export * from "./Dialog";
 export * from "./PriceInput";
 export * from "./Select";
 export * from "./ViewExpenseDialog";
-export * from "./ViewExpenseForm";
+export * from "./ExpenseForm";
 export * from "./VirtualList";

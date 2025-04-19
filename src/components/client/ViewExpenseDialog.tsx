@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Dialog, ConfirmationDialog, ViewExpenseForm } from "@/components/client";
+import { Dialog, ConfirmationDialog, ExpenseForm } from "@/components/client";
 import { editExpense } from "@/app/expenses/actions";
 import { Expense } from "@/types/Expense.types";
 import { deleteExpense } from "@/services/expensesService";
@@ -24,7 +24,7 @@ export const ViewExpenseDialog = ({ expense, onClose }: ViewExpenseDialogProps) 
   return (
     <>
       <Dialog title="Expense" onClose={onClose}>
-        <ViewExpenseForm
+        <ExpenseForm
           action={editExpense}
           expense={expense}
           isEditing={isEditing}
