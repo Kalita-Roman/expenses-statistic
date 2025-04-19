@@ -3,6 +3,7 @@ import { prisma } from "@/services/prismaService";
 
 export const getAuthUserId = async () => {
   const session = await auth();
+  console.log(">>> getAuthUserId > session", { session });
   const id = session?.user?.id;
   if (!id) {
     throw new Error("User id not found");

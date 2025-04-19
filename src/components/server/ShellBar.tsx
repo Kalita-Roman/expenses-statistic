@@ -1,14 +1,11 @@
 import { ReactNode } from "react";
 import { auth, signIn, signOut } from "@/auth.config";
-// import { prisma } from "../../db";
 
 export const ShellBar = async () => {
   const session = await auth();
 
-  // const users = await prisma.users.findMany();
-
   return (
-    <div className="shell-bar w-full bg-gray-800 text-white p-4 flex justify-end items-center ml-auto ">
+    <div className="shell-bar w-full bg-gray-800 text-white p-4 flex justify-end items-center ml-auto">
       {!session?.user && (
         <form
           action={async () => {
@@ -19,21 +16,22 @@ export const ShellBar = async () => {
           <Button>Sign In</Button>
         </form>
       )}
-      {session?.user?.image && (
-        <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={session.user.image} alt="avatar" className="w-8 h-8" />
-          <form
-            action={async () => {
-              "use server";
-              await signOut();
-            }}
-            className="flex ml-2"
-          >
-            <Button>Sign Out</Button>
-          </form>
-        </>
-      )}
+      {session?.user?.email
+        && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={session.user.image} alt="avatar" className="w-8 h-8" />
+            <form
+              action={async () => {
+                "use server";
+                await signOut();
+              }}
+              className="flex ml-2"
+            >
+              <Button>Sign Out</Button>
+            </form>
+          </>
+        )}
     </div>
   );
 };
