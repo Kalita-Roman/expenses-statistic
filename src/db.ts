@@ -18,7 +18,7 @@ export const createAuthPool = () =>
   new Promise<Pool>((resolve, reject) => {
     const authPool = createPool();
     console.log("    >   Creating auth pool");
-    authPool.query("SET search_path TO auth", (err) => {
+    authPool.query("SET search_path TO auth;", (err) => {
       if (err) {
         console.error("    >   Setting search_path: Error", err);
         reject(err);
