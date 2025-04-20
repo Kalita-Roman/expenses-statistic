@@ -19,8 +19,9 @@ export const Button = ({
   return (
     <button
       className={twMerge(
-        getButtonStyle(buttonType),
         "font-bold py-2 px-4 rounded",
+        "disabled:bg-gray-400 disabled:text-gray-700 disabled:cursor-not-allowed",
+        getButtonStyle(buttonType),
         className
       )}
       {...props}

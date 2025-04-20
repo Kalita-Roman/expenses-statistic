@@ -6,10 +6,10 @@ interface DatePickerProps {
   defaultValue?: string;
   name?: string;
   disabled?: boolean;
-  readOnly?: boolean;
+  isEdit?: boolean;
 }
 
-export const DatePicker = ({ ...props }: DatePickerProps) => {
+export const DatePicker = ({ defaultValue, isEdit = true, ...props }: DatePickerProps) => {
   const today = new Date().toISOString().slice(0, 10);
-  return <Input type="date" {...props} max={today} />;
+  return <Input type="date" defaultValue={defaultValue || today} max={today} readOnly={!isEdit} {...props} />;
 };

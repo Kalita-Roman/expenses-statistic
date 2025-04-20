@@ -7,12 +7,21 @@ import { CategoryId } from "@/types/Expense.types";
 interface CategorySelectProps {
   categoryId?: CategoryId | null;
   disabled?: boolean;
+  isEdit?: boolean;
 }
 
-export const CategorySelect = ({ categoryId, disabled }: CategorySelectProps) => {
+export const CategorySelect = ({ categoryId, disabled, isEdit }: CategorySelectProps) => {
   const { getCategoryById, categories } = useCategory();
 
   return (
-    <Select name="category" options={categories} defaultValue={getCategoryById(categoryId || undefined)} disabled={disabled} pickName={x => x!.name} pickValue={x => x!.id} />
+    <Select
+      name="category"
+      options={categories}
+      defaultValue={getCategoryById(categoryId || undefined)}
+      disabled={disabled}
+      readOnly={!isEdit}
+      pickName={x => x!.name}
+      pickValue={x => x!.id}
+    />
   );
 };

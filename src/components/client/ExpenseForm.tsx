@@ -16,7 +16,7 @@ interface ExpenseFormProps {
   action: unknown;
 }
 
-export const ExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, onCancel, action }: ExpenseFormProps) => {
+export const ExpenseForm = ({ expense, isEditing = true, onDelete, onEdit, onDone, onCancel, action }: ExpenseFormProps) => {
   const [state, editExpenseFormAction, isPending] = useActionState(
     action as (state: { data: unknown; error: unknown; }, payload?: unknown) => { data: unknown; error: unknown; } | Promise<{ data: unknown; error: unknown; }>,
     { data: undefined, error: undefined }
@@ -26,7 +26,7 @@ export const ExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, onCa
     if (!isPending && state.data) {
       onDone();
     }
-  }, [isPending, state]);
+  }, [isPending, state, onDone]);
 
   return (
     <Form action={editExpenseFormAction} onKeyDown={(e) => {
@@ -37,9 +37,9 @@ export const ExpenseForm = ({ expense, isEditing, onDelete, onEdit, onDone, onCa
       {expense && <input type="hidden" name="id" value={expense.id} />}
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
-          <DatePicker name="date" defaultValue={dateToText(expense?.date)} readOnly={!isEditing} />
-          <CategorySelect categoryId={expense?.category || undefined} />
-          <PriceInput amount={expense?.amount} currency={expense?.currency} isEdit={isEditing} />
+          <DatePicker name="date" defaultValue={expense ? dateToText(expense?.date) : undefined} isEdit={isEditing} disabled={isPending} />
+          <CategorySelect categoryId={expense?.category || undefined} isEdit={isEditing} disabled={isPending} />
+          <PriceInput amount={expense?.amount} currency={expense?.currency} isEdit={isEditing} disabled={isPending} />
         </div>
         {expense && !isEditing && (
           <div className="grid grid-cols-[1fr,2fr] gap-4">
