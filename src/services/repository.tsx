@@ -51,7 +51,37 @@ export const getExpense = async ({ id, user }: { id: string; user: UserId }): Pr
 }
 
 export const getCategories = async (): Promise<Category[]> => {
-  const categories = await prisma.category.findMany({});
+  const categories = await prisma.category.findMany({
+    orderBy: [{ order: "asc" }],
+  });
 
   return categories.map((category) => ({ name: category.name, id: category.id }));
+};
+
+export const getMonthlyExpenses = async ({ userId }: { userId: UserId }) => {
+  const currentDate = new Date();
+  const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+  const expenses = await prisma.expenses.groupBy({
+    by: ['category', 'currency'],
+    where: {
+      user_id: userId,
+      date: {
+        gte: startOfMonth,
+        lte: endOfMonth,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+
+  return expenses.map(({ _sum, currency, category }) => ({
+    categoryId: category,
+    sum: {
+      amount: _sum.amount!.toNumber(),
+      currency
+    }
+  }));
 };

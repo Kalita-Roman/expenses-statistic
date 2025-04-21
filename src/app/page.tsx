@@ -1,17 +1,18 @@
-// import { prisma } from "@/db";
-import { redirect } from "next/navigation";
-// import { auth } from "../../auth.config";
+import { getMonthlyExpenses } from '@/services/expensesService';
+import { MonthExpensesChart } from '@/components/client';
 
 export default async function Page() {
-  // const users = await prisma.users.findMany();
 
+  const monthlyExpenses = await getMonthlyExpenses()
 
-  redirect('/expenses');
-
-  // return (
-  //   <div>
-  //     <h1>App</h1>
-  //     <div>{JSON.stringify(users)}</div>
-  //   </div>
-  // )
+  return (
+    <div className='flex-grow h-full'>
+      <div className='flex flex-col items-center justify-center h-full py-2'>
+        <h1>{monthlyExpenses.monthName}</h1>
+        <div>
+          <MonthExpensesChart data={monthlyExpenses.groups.map((group) => ({ amount: group.sum.amount, label: group.category!.name }))} />
+        </div>
+      </div>
+    </div>
+  )
 }

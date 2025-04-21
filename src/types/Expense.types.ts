@@ -24,3 +24,4 @@ export type Category = {
 };
 
 export type CategoryServiceResponse = Category[];
+

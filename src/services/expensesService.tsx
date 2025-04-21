@@ -91,3 +91,13 @@ export const deleteExpense = async ({ id }: { id: string }) => {
     },
   });
 };
+
+export const getMonthlyExpenses = async () => {
+  const userId = await getUserId();
+  const categories = await repository.getCategories();
+  const groups = await repository.getMonthlyExpenses({ userId });
+  return ({
+    monthName: new Date().toLocaleString('en', { month: "long" }),
+    groups: groups.map(({ categoryId, ...group }) => ({ category: categories.find(({ id }) => categoryId === id), ...group })),
+  })
+}
