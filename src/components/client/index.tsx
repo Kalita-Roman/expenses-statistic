@@ -12,5 +12,6 @@ export * from "./ExpensesList";
 export * from "./MonthExpensesChart";
 export * from "./PriceInput";
 export * from "./Select";
+export * from "./SideMenu";
 export * from "./ViewExpenseDialog";
 export * from "./VirtualList";
