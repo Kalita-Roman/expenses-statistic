@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from 'next/link'
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ShellBar, SessionWrapper } from "@/components/server";
 import { LoadServiceWorker, SideMenu } from "@/components/client";
@@ -30,14 +30,14 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-dvh`}
       >
-        <ShellBar />
-        <SideMenu>
-          <Link href="/">Home</Link>
-          <Link href="/expenses">Expenses</Link>
-        </SideMenu>
-        <div className="flex-grow h-full">
-          <SessionWrapper>{children}</SessionWrapper>
-        </div>
+        <SessionWrapper>
+          <ShellBar />
+          <SideMenu>
+            <Link href="/">Home</Link>
+            <Link href="/expenses">Expenses</Link>
+          </SideMenu>
+          <div className="flex-grow h-full">{children}</div>
+        </SessionWrapper>
       </body>
       <LoadServiceWorker />
     </html>
