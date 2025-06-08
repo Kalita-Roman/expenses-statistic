@@ -1,8 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export const MainLayout = ({ children, sideMenu }) => {
   const [open, setOpen] = useState(false);
+
+  const pathName = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathName]);
 
   return (
     <div className="flex flex-col h-full">
