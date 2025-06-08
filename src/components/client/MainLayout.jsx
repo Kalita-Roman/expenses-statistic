@@ -5,7 +5,7 @@ export const MainLayout = ({ children, sideMenu }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen h-full">
+    <div className="flex flex-col h-full">
       <div className="w-full bg-gray-800 text-white p-4 flex items-center justify-between">
         <button
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
