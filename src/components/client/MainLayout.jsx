@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { FaBars } from "react-icons/fa";
 
 export const MainLayout = ({ children, sideMenu }) => {
   const [open, setOpen] = useState(false);
@@ -13,14 +14,14 @@ export const MainLayout = ({ children, sideMenu }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="w-full bg-gray-800 text-white p-4 flex items-center justify-between">
+      <div className="w-full bg-gray-800 text-white p-2 flex items-center justify-between">
         <button
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+          className="hover:bg-blue-700 text-white font-semibold p-2 flex items-center gap-2"
           onClick={() => {
             setOpen((prev) => !prev);
           }}
         >
-          {open ? "Close" : "Open"}
+          <FaBars className="w-6 h-6" />
         </button>
       </div>
       <div className="flex flex-grow w-full ">
