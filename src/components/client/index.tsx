@@ -9,6 +9,7 @@ export * from "./DecimalInput";
 export * from "./Dialog";
 export * from "./ExpenseForm";
 export * from "./ExpensesList";
+export * from "./MainLayout";
 export * from "./MonthExpensesChart";
 export * from "./PriceInput";
 export * from "./Select";

@@ -1,34 +1,17 @@
-'use client';
+import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
-import { createContext, useContext, useState, useEffect } from 'react';
-import { twMerge } from 'tailwind-merge';
-import { usePathname } from 'next/navigation';
-
-const StateContext = createContext();
-
-export const SideMenu = ({ children }) => {
-  const [open, setOpen] = useState(false);
-  const pathname = usePathname()
-
-  useEffect(() => {
-    setOpen(false)
-  }, [pathname]);
-
+export const SideMenu = () => {
   return (
-    <>
-      <button onClick={() => setOpen(!open)}>{'Switch ' + open}</button>
-      <div
-        className={twMerge(
-          `fixed top-[66px] bottom-0 left-0 h-full bg-gray-900 flex flex-col overflow-hidden transition-width duration-300 ease-in-out z-[1000] gap-8`,
-          open ? 'w-1/3' : 'w-0',
-        )}
-      >
-        <menu className='w-full h-full flex flex-col p-2 gap-4'>
-          {children}
-        </menu>
-      </div>
-    </>
+    <div
+      className={twMerge(
+        `h-full bg-gray-900 flex flex-col overflow-hidden transition-width duration-300 ease-in-out z-[1000] gap-8`
+      )}
+    >
+      <menu className="w-full h-full flex flex-col p-2 gap-4">
+        <Link href="/">Home</Link>
+        <Link href="/expenses">Expenses</Link>
+      </menu>
+    </div>
   );
 };
-
-export const useStateContext = () => useContext(StateContext);
