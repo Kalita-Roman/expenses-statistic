@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AddExpenseDialog } from "@/components/client";
 import { Button } from "@/components/presentation";
 
-export const AddExpenseButton = ({ categories }) => {
+export const AddExpenseButton = () => {
   const [isAdding, setIsAdding] = useState(false);
 
   return (
@@ -11,7 +11,7 @@ export const AddExpenseButton = ({ categories }) => {
       <Button className="w-full" onClick={() => setIsAdding(true)}>
         Add
       </Button>
-      {isAdding && <AddExpenseDialog categories={categories} onClose={() => setIsAdding(false)} />}
+      {isAdding && <AddExpenseDialog onClose={() => setIsAdding(false)} />}
     </>
   );
 };
