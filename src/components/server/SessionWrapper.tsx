@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { auth } from "@/auth.config";
-import { SingInButton } from "./SingInButton";
+import { SignInButton } from "./SignInButton";
 
 export const SessionWrapper = async ({
   children,
@@ -11,7 +11,7 @@ export const SessionWrapper = async ({
   if (!session) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <SingInButton />
+        <SignInButton />
       </div>
     );
   }

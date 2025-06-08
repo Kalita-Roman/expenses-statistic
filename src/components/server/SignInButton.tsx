@@ -1,7 +1,7 @@
 import { signIn } from "@/auth.config";
 import { ReactNode } from "react";
 
-export const SingInButton = () => (
+export const SignInButton = () => (
   <form
     action={async () => {
       "use server";
@@ -17,5 +17,3 @@ const Button = ({ children }: { children: ReactNode }) => (
     {children}
   </button>
 );
-
-export default SingInButton;
